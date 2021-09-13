@@ -11,8 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.study.algafood.core.validation.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,11 +34,13 @@ import lombok.EqualsAndHashCode;
 @Table(name="Cozinha")
 public class Cozinha {
 	
+	@NotNull(groups = Groups.CozinhaId.class)
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	@Column(name="nome", length = 50)
 	private String nome;
 	

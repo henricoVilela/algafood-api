@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,16 +16,25 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.study.algafood.core.validation.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
+/*@ValorZeroIncluiDescricao(valorField = "taxaFrete", 
+	descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")*/
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -37,14 +45,24 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	//@NotNull - valida se nao pode ser nulo
+	//@NotEmpty - valida se nao poder ser string vazia
+	@NotBlank
 	private String nome;
 	
+	//@DecimalMin("0")
+	@NotNull
+	@PositiveOrZero
+	//@Multiplo(numero = 5)
 	@Column(name="taxa_frete")
 	private BigDecimal taxaFrete;
 	
 	//@JsonIgnore
 	//@JsonIgnoreProperties({"hibernateLazyInitializer"}) //descomentar caso queria que cozinha apareca na representacao
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Valid
+	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	@NotNull
+	@ManyToOne
 	@JoinColumn(name="cozinha_id", nullable=false)
 	private Cozinha cozinha;
 	
