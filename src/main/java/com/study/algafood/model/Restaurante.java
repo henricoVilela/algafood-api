@@ -26,7 +26,6 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.study.algafood.core.validation.Groups;
 
 import lombok.Data;
@@ -59,6 +58,7 @@ public class Restaurante {
 	
 	//@JsonIgnore
 	//@JsonIgnoreProperties({"hibernateLazyInitializer"}) //descomentar caso queria que cozinha apareca na representacao
+	//@JsonIgnoreProperties(value = {"nome"}, allowGetters = true)
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull
@@ -66,28 +66,28 @@ public class Restaurante {
 	@JoinColumn(name="cozinha_id", nullable=false)
 	private Cozinha cozinha;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;  
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;  
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_forma_pagamento", 
 			   joinColumns = @JoinColumn(name="restaurante_id"),
 			   inverseJoinColumns = @JoinColumn(name="formaPagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
 	
