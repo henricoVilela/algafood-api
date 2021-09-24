@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.study.algafood.api.converter.CozinhaInputDeconvert;
+import com.study.algafood.api.converter.CozinhaModelConverter;
+import com.study.algafood.api.model.CozinhaModel;
 import com.study.algafood.api.model.CozinhasXmlWrapper;
+import com.study.algafood.api.model.input.CozinhaInput;
 import com.study.algafood.api.service.CadastroCozinhaService;
 import com.study.algafood.model.Cozinha;
 import com.study.algafood.repository.CozinhaRepository;
@@ -36,10 +39,16 @@ public class CozinhaController {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
 	
+	@Autowired
+	private CozinhaModelConverter cozinhaModelConverter;
+	
+	@Autowired
+	private CozinhaInputDeconvert cozinhaInputDeconvert;
+	
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) //Produces diz a estrutura de dados retornado pelo metodo para a resposta http
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
-	public List<Cozinha> listar(){
-		return cozinhaRepository.findAll();
+	public List<CozinhaModel> listar(){
+		return cozinhaModelConverter.toCollectionModel(cozinhaRepository.findAll());
 	}
 	
 	//Metodo para poder customizar as respostas em xml
@@ -49,8 +58,8 @@ public class CozinhaController {
 	}
 	
 	@GetMapping("/por-nome")
-	public List<Cozinha> listarPorNome(@RequestParam("nome") String nome){
-		return cozinhaRepository.consultarPorNome(nome);
+	public List<CozinhaModel> listarPorNome(@RequestParam("nome") String nome){
+		return cozinhaModelConverter.toCollectionModel(cozinhaRepository.consultarPorNome(nome));
 	}
 	
 	/*@GetMapping(value="{cozinhaId}")
@@ -69,29 +78,32 @@ public class CozinhaController {
 	}*/
 	
 	@GetMapping(value="{cozinhaId}")
-	public Cozinha buscar(@PathVariable("cozinhaId") Long id) {
-		return cadastroCozinha.buscarOuFalhar(id);   
+	public CozinhaModel buscar(@PathVariable("cozinhaId") Long id) {
+		return cozinhaModelConverter.toModel(cadastroCozinha.buscarOuFalhar(id));   
 	}
 	
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
-		return cadastroCozinha.salvar(cozinha);
+	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
+		Cozinha cozinha = cozinhaInputDeconvert.toDomainObject(cozinhaInput);
+		return cozinhaModelConverter.toModel(cadastroCozinha.salvar(cozinha));
 	}
 	
 	@PutMapping("/{cozinhaId}")
-	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid Cozinha cozinha){
+	public CozinhaModel atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput){
 		
 		Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
 		//Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
 		
 
-		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id"); //Diz que quer ignorar o campo ID pora não trocar para nulo
-	
+		//BeanUtils.copyProperties(cozinha, cozinhaAtual, "id"); //Diz que quer ignorar o campo ID pora não trocar para nulo
+		
+		cozinhaInputDeconvert.copyToDomainObject(cozinhaInput, cozinhaAtual);
+		
 		Cozinha cozinhaSalva = cadastroCozinha.salvar(cozinhaAtual);
 		
-		return cozinhaSalva;
+		return cozinhaModelConverter.toModel(cozinhaSalva);
 
 	}
 	
