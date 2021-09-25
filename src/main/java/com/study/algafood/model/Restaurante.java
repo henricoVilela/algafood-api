@@ -80,6 +80,8 @@ public class Restaurante {
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataAtualizacao;  
 	
+	private Boolean ativo = Boolean.TRUE;
+	
 	//@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_forma_pagamento", 
@@ -90,5 +92,13 @@ public class Restaurante {
 	//@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
+	
+	public void ativar() {
+		setAtivo(Boolean.TRUE);
+	}
+	
+	public void inativar() {
+		setAtivo(Boolean.FALSE);
+	}
 	
 }
