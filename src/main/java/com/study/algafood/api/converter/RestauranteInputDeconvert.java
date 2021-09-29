@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.RestauranteInput;
+import com.study.algafood.model.Cidade;
 import com.study.algafood.model.Cozinha;
 import com.study.algafood.model.Restaurante;
 
@@ -24,6 +25,11 @@ public class RestauranteInputDeconvert {
 		
 		//Instacia nova cozinha para nao da erro quando alterar a cozinha no put
 		restaurante.setCozinha(new Cozinha());
+		
+		if(restaurante.getEndereco() != null) {
+			restaurante.getEndereco().setCidade(new Cidade());
+		}
+		
 		modelMapper.map(restauranteInput, restaurante);
 	}
 }

@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.algafood.api.converter.RestauranteInputDeconvert;
 import com.study.algafood.api.converter.RestauranteModelConverter;
+import com.study.algafood.api.exception.CidadeNaoEncontradaException;
 import com.study.algafood.api.exception.CozinhaNaoEncontradaException;
 import com.study.algafood.api.exception.EntidadeNaoEncontradaException;
 import com.study.algafood.api.exception.NegocioException;
@@ -128,6 +129,8 @@ public class RestauranteController {
 
 			return restauranteModelConverter.toModel(cadastroRestaurante.salvar(restauranteAtual));
 		} catch (CozinhaNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		} catch (CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
     }
