@@ -18,6 +18,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +57,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	    }
 
 	    return super.handleTypeMismatch(ex, headers, status, request);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+			HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	    
+		ProblemType problemType = ProblemType.METODO_NAO_SUPORTADO;
+		String detail = "O Método "+ex.getMethod()+" não suportado pelo recurso.";
+		
+		Problem problem = createProblemBuilder(status, problemType, detail)
+			        .userMessage(detail)
+			        .objects(null)
+			        .build();
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 	
 	@Override
@@ -164,6 +181,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	} 
+	
 	
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ResponseEntity<?> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex, WebRequest request){

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.study.algafood.api.exception.RestauranteNaoEncontradaException;
 import com.study.algafood.model.Cidade;
 import com.study.algafood.model.Cozinha;
+import com.study.algafood.model.FormaPagamento;
 import com.study.algafood.model.Restaurante;
 import com.study.algafood.repository.RestauranteRepository;
 
@@ -21,6 +22,9 @@ public class CadastroRestauranteService {
 	
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
+	
+	@Autowired
+	private CadastroFormaPagamentoService cadastroFormaPagamento;
 	
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
@@ -40,6 +44,22 @@ public class CadastroRestauranteService {
 		//Se não tiver ninguem no Optionallança a exception passada
 	    return restauranteRepository.findById(restauranteId)
 	        .orElseThrow(() -> new RestauranteNaoEncontradaException(restauranteId));
+	}
+	
+	@Transactional
+	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+		
+		restaurante.removerFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+		
+		restaurante.adicionarFormaPagamento(formaPagamento);
 	}
 	
 	@Transactional
