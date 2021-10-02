@@ -9,6 +9,7 @@ import com.study.algafood.model.Cidade;
 import com.study.algafood.model.Cozinha;
 import com.study.algafood.model.FormaPagamento;
 import com.study.algafood.model.Restaurante;
+import com.study.algafood.model.Usuario;
 import com.study.algafood.repository.RestauranteRepository;
 
 @Service
@@ -25,6 +26,9 @@ public class CadastroRestauranteService {
 	
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamento;
+	
+	@Autowired
+	private CadastroUsuarioService cadastroUsuario;
 	
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
@@ -63,6 +67,22 @@ public class CadastroRestauranteService {
 	}
 	
 	@Transactional
+	public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+	    Restaurante restaurante = buscarOuFalhar(restauranteId);
+	    Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+	    
+	    restaurante.removerResponsavel(usuario);
+	}
+
+	@Transactional
+	public void associarResponsavel(Long restauranteId, Long usuarioId) {
+	    Restaurante restaurante = buscarOuFalhar(restauranteId);
+	    Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+	    
+	    restaurante.adicionarResponsavel(usuario);
+	}
+	
+	@Transactional
 	public void ativar(Long restauranteId) {
 		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		restauranteAtual.ativar();
@@ -73,4 +93,18 @@ public class CadastroRestauranteService {
 		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		restauranteAtual.inativar();
 	}
+	
+	@Transactional
+	public void abrir(Long restauranteId) {
+	    Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+	    
+	    restauranteAtual.abrir();
+	}
+
+	@Transactional
+	public void fechar(Long restauranteId) {
+	    Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+	    
+	    restauranteAtual.fechar();
+	} 
 }
