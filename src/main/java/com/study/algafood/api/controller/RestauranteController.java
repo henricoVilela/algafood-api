@@ -5,14 +5,11 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,7 +19,6 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.algafood.api.converter.RestauranteInputDeconvert;
@@ -40,13 +37,12 @@ import com.study.algafood.api.exception.CidadeNaoEncontradaException;
 import com.study.algafood.api.exception.CozinhaNaoEncontradaException;
 import com.study.algafood.api.exception.EntidadeNaoEncontradaException;
 import com.study.algafood.api.exception.NegocioException;
+import com.study.algafood.api.exception.RestauranteNaoEncontradaException;
 import com.study.algafood.api.exception.ValidacaoException;
-import com.study.algafood.api.model.CozinhaModel;
 import com.study.algafood.api.model.RestauranteModel;
-import com.study.algafood.api.model.input.CozinhaIdInput;
 import com.study.algafood.api.model.input.RestauranteInput;
+import com.study.algafood.api.model.view.RestauranteView;
 import com.study.algafood.api.service.CadastroRestauranteService;
-import com.study.algafood.model.Cozinha;
 import com.study.algafood.model.Restaurante;
 import com.study.algafood.repository.RestauranteRepository;
 
@@ -70,10 +66,35 @@ public class RestauranteController {
 	
 	@Autowired RestauranteInputDeconvert restauranteInputDeconvert;
 	
+	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findAll());
 	}
+	
+	@JsonView(RestauranteView.ApenasNome.class)
+	@GetMapping(params = "projecao=apenas-nome")
+	public List<RestauranteModel> listarApenasNomes() {
+		return listar();
+	}
+	
+//	@GetMapping
+//	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+//		List<Restaurante> restaurantes = restauranteRepository.findAll();
+//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
+//		
+//		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restaurantesModel);
+//		
+//		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
+//		
+//		if ("apenas-nome".equals(projecao)) {
+//			restaurantesWrapper.setSerializationView(RestauranteView.ApenasNome.class);
+//		} else if ("completo".equals(projecao)) {
+//			restaurantesWrapper.setSerializationView(null);
+//		}
+//		
+//		return restaurantesWrapper;
+//	}
 	
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
@@ -98,6 +119,26 @@ public class RestauranteController {
 	public List<RestauranteModel> restauranteComFreteGratis(String nome){
 		
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findComFreteGratis(nome));
+	}
+	
+	@PutMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarMultilpos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.ativar(restauranteIds);
+		}catch (RestauranteNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(),e);
+		}
+	}
+	
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativarMultilpos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.inativar(restauranteIds);
+		}catch (RestauranteNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(),e);
+		}
 	}
 	
 	@PostMapping
