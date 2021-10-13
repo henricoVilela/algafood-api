@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,8 +51,14 @@ public class CozinhaController {
 	
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) //Produces diz a estrutura de dados retornado pelo metodo para a resposta http
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
-	public List<CozinhaModel> listar(){
-		return cozinhaModelConverter.toCollectionModel(cozinhaRepository.findAll());
+	public Page<CozinhaModel> listar(@PageableDefault(size = 15) Pageable pageable){
+		Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
+		
+		List<CozinhaModel> cozinhasModel = cozinhaModelConverter.toCollectionModel(pageCozinha.getContent());
+		
+		Page<CozinhaModel> cozinhasPage = new PageImpl<>(cozinhasModel,pageable,pageCozinha.getTotalElements());
+		
+		return cozinhasPage;
 	}
 	
 	//Metodo para poder customizar as respostas em xml
