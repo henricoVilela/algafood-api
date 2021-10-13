@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.ImmutableMap;
 import com.study.algafood.api.converter.PedidoInputDeconvert;
 import com.study.algafood.api.converter.PedidoModelConverter;
 import com.study.algafood.api.converter.PedidoResumoModelConverter;
@@ -28,6 +29,7 @@ import com.study.algafood.api.model.PedidoModel;
 import com.study.algafood.api.model.PedidoResumoModel;
 import com.study.algafood.api.model.input.PedidoInput;
 import com.study.algafood.api.service.EmissaoPedidoService;
+import com.study.algafood.core.data.PageableTranslator;
 import com.study.algafood.infrastructure.repository.spec.PedidoSpecs;
 import com.study.algafood.model.Pedido;
 import com.study.algafood.model.Usuario;
@@ -114,8 +116,15 @@ public class PedidoController {
         }
     }
     
-    public Pageable traduzirPageable(Pageable apiPageable) {
-    	
-    	return null;
-    }
+    private Pageable traduzirPageable(Pageable apiPageable) {
+		var mapeamento = ImmutableMap.of(
+				"codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"cliente.nome", "cliente.nome",
+				"valorTotal", "valorTotal"
+			);
+		
+		return PageableTranslator.translate(apiPageable, mapeamento);
+	}
 }   
