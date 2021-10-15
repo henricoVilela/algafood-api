@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.study.algafood.core.validation.annotation.Multiplo;
+
 public class MultiploValidator implements ConstraintValidator<Multiplo, Number> {
 
 	private int numeroMultiplo;

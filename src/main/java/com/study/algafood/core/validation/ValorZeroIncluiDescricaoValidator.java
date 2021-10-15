@@ -8,6 +8,8 @@ import javax.validation.ValidationException;
 
 import org.springframework.beans.BeanUtils;
 
+import com.study.algafood.core.validation.annotation.ValorZeroIncluiDescricao;
+
 public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<ValorZeroIncluiDescricao, Object> {
 
 	private String valorField;
