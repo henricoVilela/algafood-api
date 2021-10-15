@@ -20,9 +20,9 @@ import com.study.algafood.api.converter.FormaPagamentoInputDeconvert;
 import com.study.algafood.api.converter.FormaPagamentoModelConverter;
 import com.study.algafood.api.model.FormaPagamentoModel;
 import com.study.algafood.api.model.input.FormaPagamentoInput;
-import com.study.algafood.api.service.CadastroFormaPagamentoService;
-import com.study.algafood.model.FormaPagamento;
-import com.study.algafood.repository.FormaPagamentoRepository;
+import com.study.algafood.domain.model.FormaPagamento;
+import com.study.algafood.domain.repository.FormaPagamentoRepository;
+import com.study.algafood.domain.service.CadastroFormaPagamentoService;
 
 @RestController
 @RequestMapping("/formas-pagamento")

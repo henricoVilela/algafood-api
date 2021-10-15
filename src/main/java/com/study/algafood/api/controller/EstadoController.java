@@ -20,9 +20,9 @@ import com.study.algafood.api.converter.EstadoInputDeconvert;
 import com.study.algafood.api.converter.EstadoModelConverter;
 import com.study.algafood.api.model.EstadoModel;
 import com.study.algafood.api.model.input.EstadoInput;
-import com.study.algafood.api.service.CadastroEstadoService;
-import com.study.algafood.model.Estado;
-import com.study.algafood.repository.EstadoRepository;
+import com.study.algafood.domain.model.Estado;
+import com.study.algafood.domain.repository.EstadoRepository;
+import com.study.algafood.domain.service.CadastroEstadoService;
 
 
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao

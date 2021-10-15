@@ -20,9 +20,9 @@ import com.study.algafood.api.converter.GrupoInputDeconvert;
 import com.study.algafood.api.converter.GrupoModelConverter;
 import com.study.algafood.api.model.GrupoModel;
 import com.study.algafood.api.model.input.GrupoInput;
-import com.study.algafood.api.service.CadastroGrupoService;
-import com.study.algafood.model.Grupo;
-import com.study.algafood.repository.GrupoRepository;
+import com.study.algafood.domain.model.Grupo;
+import com.study.algafood.domain.repository.GrupoRepository;
+import com.study.algafood.domain.service.CadastroGrupoService;
 
 @RestController
 @RequestMapping("/grupos")

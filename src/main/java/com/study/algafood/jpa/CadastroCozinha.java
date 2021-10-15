@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.study.algafood.model.Cozinha;
+import com.study.algafood.domain.model.Cozinha;
 
 @Component
 public class CadastroCozinha {

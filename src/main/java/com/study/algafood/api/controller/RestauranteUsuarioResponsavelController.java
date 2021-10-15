@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.UsuarioModelConverter;
 import com.study.algafood.api.model.UsuarioModel;
-import com.study.algafood.api.service.CadastroRestauranteService;
-import com.study.algafood.model.Restaurante;
+import com.study.algafood.domain.model.Restaurante;
+import com.study.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis")

@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.RestauranteInput;
-import com.study.algafood.model.Cidade;
-import com.study.algafood.model.Cozinha;
-import com.study.algafood.model.Restaurante;
+import com.study.algafood.domain.model.Cidade;
+import com.study.algafood.domain.model.Cozinha;
+import com.study.algafood.domain.model.Restaurante;
 
 @Component
 public class RestauranteInputDeconvert {

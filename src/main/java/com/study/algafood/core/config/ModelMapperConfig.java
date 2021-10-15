@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.study.algafood.api.model.EnderecoModel;
 import com.study.algafood.api.model.input.ItemPedidoInput;
-import com.study.algafood.model.Endereco;
-import com.study.algafood.model.ItemPedido;
+import com.study.algafood.domain.model.Endereco;
+import com.study.algafood.domain.model.ItemPedido;
 
 @Configuration
 public class ModelMapperConfig {

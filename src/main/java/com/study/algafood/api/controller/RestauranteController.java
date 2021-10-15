@@ -33,18 +33,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.algafood.api.converter.RestauranteInputDeconvert;
 import com.study.algafood.api.converter.RestauranteModelConverter;
-import com.study.algafood.api.exception.CidadeNaoEncontradaException;
-import com.study.algafood.api.exception.CozinhaNaoEncontradaException;
-import com.study.algafood.api.exception.EntidadeNaoEncontradaException;
-import com.study.algafood.api.exception.NegocioException;
-import com.study.algafood.api.exception.RestauranteNaoEncontradaException;
-import com.study.algafood.api.exception.ValidacaoException;
 import com.study.algafood.api.model.RestauranteModel;
 import com.study.algafood.api.model.input.RestauranteInput;
 import com.study.algafood.api.model.view.RestauranteView;
-import com.study.algafood.api.service.CadastroRestauranteService;
-import com.study.algafood.model.Restaurante;
-import com.study.algafood.repository.RestauranteRepository;
+import com.study.algafood.domain.exception.CidadeNaoEncontradaException;
+import com.study.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.study.algafood.domain.exception.NegocioException;
+import com.study.algafood.domain.exception.RestauranteNaoEncontradaException;
+import com.study.algafood.domain.exception.ValidacaoException;
+import com.study.algafood.domain.model.Restaurante;
+import com.study.algafood.domain.repository.RestauranteRepository;
+import com.study.algafood.domain.service.CadastroRestauranteService;
 
 
 

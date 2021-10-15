@@ -8,8 +8,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.study.algafood.AlgafoodApiApplication;
-import com.study.algafood.model.Cidade;
-import com.study.algafood.repository.CidadeRepository;
+import com.study.algafood.domain.model.Cidade;
+import com.study.algafood.domain.repository.CidadeRepository;
 
 public class ConsultaCidadeMain {
 

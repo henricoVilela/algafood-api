@@ -20,11 +20,11 @@ import com.study.algafood.api.converter.ProdutoInputDeconvert;
 import com.study.algafood.api.converter.ProdutoModelConverter;
 import com.study.algafood.api.model.ProdutoModel;
 import com.study.algafood.api.model.input.ProdutoInput;
-import com.study.algafood.api.service.CadastroProdutoService;
-import com.study.algafood.api.service.CadastroRestauranteService;
-import com.study.algafood.model.Produto;
-import com.study.algafood.model.Restaurante;
-import com.study.algafood.repository.ProdutoRepository;
+import com.study.algafood.domain.model.Produto;
+import com.study.algafood.domain.model.Restaurante;
+import com.study.algafood.domain.repository.ProdutoRepository;
+import com.study.algafood.domain.service.CadastroProdutoService;
+import com.study.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")

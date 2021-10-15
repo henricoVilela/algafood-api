@@ -30,10 +30,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
-import com.study.algafood.api.exception.EntidadeEmUsoException;
-import com.study.algafood.api.exception.EntidadeNaoEncontradaException;
-import com.study.algafood.api.exception.NegocioException;
-import com.study.algafood.api.exception.ValidacaoException;
+import com.study.algafood.domain.exception.EntidadeEmUsoException;
+import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.study.algafood.domain.exception.NegocioException;
+import com.study.algafood.domain.exception.ValidacaoException;
 import com.study.algafood.enumerados.ProblemType;
 
 @ControllerAdvice

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.FormaPagamentoInput;
-import com.study.algafood.model.FormaPagamento;
+import com.study.algafood.domain.model.FormaPagamento;
 
 @Component
 public class FormaPagamentoInputDeconvert {

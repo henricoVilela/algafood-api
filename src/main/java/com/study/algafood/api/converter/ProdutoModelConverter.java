@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.ProdutoModel;
-import com.study.algafood.model.Produto;
+import com.study.algafood.domain.model.Produto;
 
 @Component
 public class ProdutoModelConverter {

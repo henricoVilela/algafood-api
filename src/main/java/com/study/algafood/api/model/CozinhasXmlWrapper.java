@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.study.algafood.model.Cozinha;
+import com.study.algafood.domain.model.Cozinha;
 
 import lombok.Data;
 import lombok.NonNull;

@@ -7,10 +7,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.study.algafood.model.Cozinha;
-import com.study.algafood.model.Endereco;
-import com.study.algafood.model.FormaPagamento;
-import com.study.algafood.model.Produto;
+import com.study.algafood.domain.model.Cozinha;
+import com.study.algafood.domain.model.Endereco;
+import com.study.algafood.domain.model.FormaPagamento;
+import com.study.algafood.domain.model.Produto;
 
 public abstract class RestauranteMixin {
 	

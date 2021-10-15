@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.UsuarioInput;
-import com.study.algafood.model.Usuario;
+import com.study.algafood.domain.model.Usuario;
 
 @Component
 public class UsuarioInputDeconvert {

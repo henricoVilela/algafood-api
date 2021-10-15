@@ -27,9 +27,9 @@ import com.study.algafood.api.converter.CozinhaModelConverter;
 import com.study.algafood.api.model.CozinhaModel;
 import com.study.algafood.api.model.CozinhasXmlWrapper;
 import com.study.algafood.api.model.input.CozinhaInput;
-import com.study.algafood.api.service.CadastroCozinhaService;
-import com.study.algafood.model.Cozinha;
-import com.study.algafood.repository.CozinhaRepository;
+import com.study.algafood.domain.model.Cozinha;
+import com.study.algafood.domain.repository.CozinhaRepository;
+import com.study.algafood.domain.service.CadastroCozinhaService;
 
 
 

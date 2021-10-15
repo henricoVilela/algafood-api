@@ -22,9 +22,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.study.algafood.model.Restaurante;
-import com.study.algafood.repository.RestauranteRepository;
-import com.study.algafood.repository.RestauranteRepositoryQueries;
+import com.study.algafood.domain.model.Restaurante;
+import com.study.algafood.domain.repository.RestauranteRepository;
+import com.study.algafood.domain.repository.RestauranteRepositoryQueries;
 
 /*
 import java.util.List;

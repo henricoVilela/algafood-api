@@ -23,18 +23,18 @@ import com.google.common.collect.ImmutableMap;
 import com.study.algafood.api.converter.PedidoInputDeconvert;
 import com.study.algafood.api.converter.PedidoModelConverter;
 import com.study.algafood.api.converter.PedidoResumoModelConverter;
-import com.study.algafood.api.exception.EntidadeNaoEncontradaException;
-import com.study.algafood.api.exception.NegocioException;
 import com.study.algafood.api.model.PedidoModel;
 import com.study.algafood.api.model.PedidoResumoModel;
 import com.study.algafood.api.model.input.PedidoInput;
-import com.study.algafood.api.service.EmissaoPedidoService;
 import com.study.algafood.core.data.PageableTranslator;
+import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.study.algafood.domain.exception.NegocioException;
+import com.study.algafood.domain.filter.PedidoFilter;
+import com.study.algafood.domain.model.Pedido;
+import com.study.algafood.domain.model.Usuario;
+import com.study.algafood.domain.repository.PedidoRepository;
+import com.study.algafood.domain.service.EmissaoPedidoService;
 import com.study.algafood.infrastructure.repository.spec.PedidoSpecs;
-import com.study.algafood.model.Pedido;
-import com.study.algafood.model.Usuario;
-import com.study.algafood.repository.PedidoRepository;
-import com.study.algafood.repository.filter.PedidoFilter;
 
 @RestController
 @RequestMapping(value = "/pedidos")

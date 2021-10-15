@@ -15,11 +15,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
-import com.study.algafood.api.exception.CozinhaNaoEncontradaException;
-import com.study.algafood.api.exception.EntidadeEmUsoException;
-import com.study.algafood.api.service.CadastroCozinhaService;
-import com.study.algafood.model.Cozinha;
-import com.study.algafood.repository.CozinhaRepository;
+import com.study.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.study.algafood.domain.exception.EntidadeEmUsoException;
+import com.study.algafood.domain.model.Cozinha;
+import com.study.algafood.domain.repository.CozinhaRepository;
+import com.study.algafood.domain.service.CadastroCozinhaService;
 import com.study.algafood.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;

@@ -7,10 +7,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.study.algafood.AlgafoodApiApplication;
-import com.study.algafood.model.Cozinha;
-import com.study.algafood.model.Restaurante;
-import com.study.algafood.repository.CozinhaRepository;
-import com.study.algafood.repository.RestauranteRepository;
+import com.study.algafood.domain.model.Cozinha;
+import com.study.algafood.domain.model.Restaurante;
+import com.study.algafood.domain.repository.CozinhaRepository;
+import com.study.algafood.domain.repository.RestauranteRepository;
 
 public class ConsultaCozinhaMain {
 	public static void main(String[] args) {

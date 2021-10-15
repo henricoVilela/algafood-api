@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.CidadeInputDeconvert;
 import com.study.algafood.api.converter.CidadeModelConverter;
-import com.study.algafood.api.exception.EstadoNaoEncontradaException;
-import com.study.algafood.api.exception.NegocioException;
 import com.study.algafood.api.model.CidadeModel;
 import com.study.algafood.api.model.input.CidadeInput;
-import com.study.algafood.api.service.CadastroCidadeService;
-import com.study.algafood.model.Cidade;
-import com.study.algafood.repository.CidadeRepository;
+import com.study.algafood.domain.exception.EstadoNaoEncontradaException;
+import com.study.algafood.domain.exception.NegocioException;
+import com.study.algafood.domain.model.Cidade;
+import com.study.algafood.domain.repository.CidadeRepository;
+import com.study.algafood.domain.service.CadastroCidadeService;
 
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao
 @RequestMapping("/cidades")

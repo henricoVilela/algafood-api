@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.CidadeInput;
-import com.study.algafood.model.Cidade;
-import com.study.algafood.model.Estado;
+import com.study.algafood.domain.model.Cidade;
+import com.study.algafood.domain.model.Estado;
 
 @Component
 public class CidadeInputDeconvert {

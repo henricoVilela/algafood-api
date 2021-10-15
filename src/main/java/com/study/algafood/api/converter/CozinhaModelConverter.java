@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.CozinhaModel;
-import com.study.algafood.model.Cozinha;
+import com.study.algafood.domain.model.Cozinha;
 
 @Component
 public class CozinhaModelConverter {

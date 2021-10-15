@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.algafood.api.service.FluxoPedidoService;
+import com.study.algafood.domain.service.FluxoPedidoService;
 
 
 @RestController

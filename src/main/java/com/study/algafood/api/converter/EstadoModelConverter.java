@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.EstadoModel;
-import com.study.algafood.model.Estado;
+import com.study.algafood.domain.model.Estado;
 
 @Component
 public class EstadoModelConverter {

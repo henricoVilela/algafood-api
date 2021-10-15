@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.PedidoModel;
-import com.study.algafood.model.Pedido;
+import com.study.algafood.domain.model.Pedido;
 
 @Component
 public class PedidoModelConverter {

@@ -21,9 +21,9 @@ import com.study.algafood.api.model.UsuarioModel;
 import com.study.algafood.api.model.input.SenhaInput;
 import com.study.algafood.api.model.input.UsuarioComSenhaInput;
 import com.study.algafood.api.model.input.UsuarioInput;
-import com.study.algafood.api.service.CadastroUsuarioService;
-import com.study.algafood.model.Usuario;
-import com.study.algafood.repository.UsuarioRepository;
+import com.study.algafood.domain.model.Usuario;
+import com.study.algafood.domain.repository.UsuarioRepository;
+import com.study.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios")

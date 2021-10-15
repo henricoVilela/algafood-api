@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.study.algafood.api.model.input.PedidoInput;
-import com.study.algafood.model.Pedido;
+import com.study.algafood.domain.model.Pedido;
 
 @Component
 public class PedidoInputDeconvert {

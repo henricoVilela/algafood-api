@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.GrupoModelConverter;
 import com.study.algafood.api.model.GrupoModel;
-import com.study.algafood.api.service.CadastroUsuarioService;
-import com.study.algafood.model.Usuario;
+import com.study.algafood.domain.model.Usuario;
+import com.study.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios/{usuarioId}/grupos")

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.PermissaoModelConverter;
 import com.study.algafood.api.model.PermissaoModel;
-import com.study.algafood.api.service.CadastroGrupoService;
-import com.study.algafood.model.Grupo;
+import com.study.algafood.domain.model.Grupo;
+import com.study.algafood.domain.service.CadastroGrupoService;
 
 @RestController
 @RequestMapping(value = "/grupos/{grupoId}/permissoes")
