@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.algafood.domain.model.Pedido;
+import com.study.algafood.domain.repository.PedidoRepository;
 import com.study.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
@@ -16,23 +17,14 @@ public class FluxoPedidoService {
 	private EmissaoPedidoService emissaoPedido;
 	
 	@Autowired
-	private EnvioEmailService envioEmail;
+	private PedidoRepository pedidoRepository;
 	
 	@Transactional
 	public void confirmar(String pedidoCodigo) {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoCodigo);
 	
 		pedido.confirmar();
-		pedido.setDataConfirmacao(OffsetDateTime.now());
-		
-		var mensagem = Mensagem.builder()
-				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-				.corpo("pedido-confirmado.html")
-				.variavel("pedido", pedido)
-				.destinatario(pedido.getCliente().getEmail())
-				.build();
-		
-		envioEmail.enviar(mensagem);
+		pedidoRepository.save(pedido);//save para poder funcionar a emissao de evento
 		
 	}
 	
@@ -41,7 +33,7 @@ public class FluxoPedidoService {
 	    Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoCodigo);
 	    
 	    pedido.cancelar();
-	    pedido.setDataCancelamento(OffsetDateTime.now());
+	    pedidoRepository.save(pedido);
 	}
 	
 	@Transactional
