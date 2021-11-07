@@ -47,7 +47,7 @@ import com.study.algafood.domain.repository.RestauranteRepository;
 import com.study.algafood.domain.service.CadastroRestauranteService;
 
 
-
+//@CrossOrigin(origins = "http://localhost:8000")
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao
 @RequestMapping(value="/restaurantes")
 public class RestauranteController {
