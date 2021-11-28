@@ -1,13 +1,16 @@
 package com.study.algafood.api.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class FormaPagamentoModel {
+	
+	@ApiModelProperty(example = "1")
+	private Long id;
 
-    private Long id;
-    private String descricao;
-    
+	@ApiModelProperty(example = "Cartão de crédito")
+	private String descricao;
 } 

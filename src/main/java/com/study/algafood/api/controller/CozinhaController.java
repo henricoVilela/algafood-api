@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.algafood.api.converter.CozinhaInputDeconvert;
 import com.study.algafood.api.converter.CozinhaModelConverter;
 import com.study.algafood.api.model.CozinhaModel;
-import com.study.algafood.api.model.CozinhasXmlWrapper;
 import com.study.algafood.api.model.input.CozinhaInput;
+import com.study.algafood.api.openapi.controller.CozinhaControllerOpenApi;
 import com.study.algafood.domain.model.Cozinha;
 import com.study.algafood.domain.repository.CozinhaRepository;
 import com.study.algafood.domain.service.CadastroCozinhaService;
@@ -35,7 +35,7 @@ import com.study.algafood.domain.service.CadastroCozinhaService;
 
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao
 @RequestMapping(value="/cozinhas", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi{
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
@@ -50,7 +50,8 @@ public class CozinhaController {
 	private CozinhaInputDeconvert cozinhaInputDeconvert;
 	
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) //Produces diz a estrutura de dados retornado pelo metodo para a resposta http
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
+	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping
 	public Page<CozinhaModel> listar(@PageableDefault(size = 15) Pageable pageable){
 		Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
 		
@@ -62,10 +63,10 @@ public class CozinhaController {
 	}
 	
 	//Metodo para poder customizar as respostas em xml
-	@GetMapping(produces =  MediaType.APPLICATION_XML_VALUE)
+	/*@GetMapping(produces =  MediaType.APPLICATION_XML_VALUE)
 	public CozinhasXmlWrapper listarXml(){
 		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
-	}
+	}*/
 	
 	@GetMapping("/por-nome")
 	public List<CozinhaModel> listarPorNome(@RequestParam("nome") String nome){

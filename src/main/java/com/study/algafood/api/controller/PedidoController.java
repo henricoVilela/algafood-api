@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import com.study.algafood.api.converter.PedidoResumoModelConverter;
 import com.study.algafood.api.model.PedidoModel;
 import com.study.algafood.api.model.PedidoResumoModel;
 import com.study.algafood.api.model.input.PedidoInput;
+import com.study.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.study.algafood.core.data.PageableTranslator;
 import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.study.algafood.domain.exception.NegocioException;
@@ -38,8 +40,8 @@ import com.study.algafood.domain.service.EmissaoPedidoService;
 import com.study.algafood.infrastructure.repository.spec.PedidoSpecs;
 
 @RestController
-@RequestMapping(value = "/pedidos")
-public class PedidoController {
+@RequestMapping(path = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi{
 
     @Autowired
     private PedidoRepository pedidoRepository;

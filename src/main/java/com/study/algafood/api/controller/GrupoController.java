@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +21,14 @@ import com.study.algafood.api.converter.GrupoInputDeconvert;
 import com.study.algafood.api.converter.GrupoModelConverter;
 import com.study.algafood.api.model.GrupoModel;
 import com.study.algafood.api.model.input.GrupoInput;
+import com.study.algafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.study.algafood.domain.model.Grupo;
 import com.study.algafood.domain.repository.GrupoRepository;
 import com.study.algafood.domain.service.CadastroGrupoService;
 
 @RestController
-@RequestMapping("/grupos")
-public class GrupoController {
+@RequestMapping(path="/grupos",produces = MediaType.APPLICATION_JSON_VALUE)
+public class GrupoController implements GrupoControllerOpenApi{
 
     @Autowired
     private GrupoRepository grupoRepository;

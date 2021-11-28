@@ -78,6 +78,7 @@
     {
       "name": "algafood.storage.tipo",
       "type": "com.study.algafood.core.storage.StorageProperties$TipoStorage",
+      "description": "A description for 'algafood.storage.tipo'",
       "sourceType": "com.study.algafood.core.storage.StorageProperties"
     }
   ],
