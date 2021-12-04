@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.study.algafood.api.openapi.controller.FluxoPedidoControllerOpenApi;
 import com.study.algafood.domain.service.FluxoPedidoService;
 
 
 @RestController
 @RequestMapping(value = "/pedidos/{pedidoCodigo}")
-public class FluxoPedidoController {
+public class FluxoPedidoController implements FluxoPedidoControllerOpenApi{
 	
 	@Autowired
 	private FluxoPedidoService fluxoPedidoService;
