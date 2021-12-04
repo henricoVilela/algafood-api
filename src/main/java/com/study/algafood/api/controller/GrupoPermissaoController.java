@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.PermissaoModelConverter;
 import com.study.algafood.api.model.PermissaoModel;
+import com.study.algafood.api.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.study.algafood.domain.model.Grupo;
 import com.study.algafood.domain.service.CadastroGrupoService;
 
 @RestController
 @RequestMapping(value = "/grupos/{grupoId}/permissoes")
-public class GrupoPermissaoController {
+public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi {
 
 	@Autowired
 	private CadastroGrupoService cadastroGrupo;

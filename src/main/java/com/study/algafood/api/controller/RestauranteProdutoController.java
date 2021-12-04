@@ -20,6 +20,7 @@ import com.study.algafood.api.converter.ProdutoInputDeconvert;
 import com.study.algafood.api.converter.ProdutoModelConverter;
 import com.study.algafood.api.model.ProdutoModel;
 import com.study.algafood.api.model.input.ProdutoInput;
+import com.study.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.study.algafood.domain.model.Produto;
 import com.study.algafood.domain.model.Restaurante;
 import com.study.algafood.domain.repository.ProdutoRepository;
@@ -28,7 +29,7 @@ import com.study.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi{
 
     @Autowired
     private ProdutoRepository produtoRepository;

@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.GrupoModelConverter;
 import com.study.algafood.api.model.GrupoModel;
+import com.study.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import com.study.algafood.domain.model.Usuario;
 import com.study.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoController {
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
 
     @Autowired
     private CadastroUsuarioService cadastroUsuario;

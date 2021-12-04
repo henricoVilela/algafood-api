@@ -36,6 +36,7 @@ import com.study.algafood.api.converter.RestauranteModelConverter;
 import com.study.algafood.api.model.RestauranteModel;
 import com.study.algafood.api.model.input.RestauranteInput;
 import com.study.algafood.api.model.view.RestauranteView;
+import com.study.algafood.api.openapi.controller.RestauranteControllerOpenApi;
 import com.study.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.study.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
@@ -50,7 +51,7 @@ import com.study.algafood.domain.service.CadastroRestauranteService;
 //@CrossOrigin(origins = "http://localhost:8000")
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao
 @RequestMapping(value="/restaurantes")
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@Autowired
     private RestauranteRepository restauranteRepository;
@@ -65,13 +66,12 @@ public class RestauranteController {
 	private RestauranteModelConverter restauranteModelConverter;
 	
 	@Autowired RestauranteInputDeconvert restauranteInputDeconvert;
-	
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findAll());
 	}
-	
+
 	@JsonView(RestauranteView.ApenasNome.class)
 	@GetMapping(params = "projecao=apenas-nome")
 	public List<RestauranteModel> listarApenasNomes() {
@@ -119,26 +119,6 @@ public class RestauranteController {
 	public List<RestauranteModel> restauranteComFreteGratis(String nome){
 		
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findComFreteGratis(nome));
-	}
-	
-	@PutMapping("/ativacoes")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativarMultilpos(@RequestBody List<Long> restauranteIds) {
-		try {
-			cadastroRestaurante.ativar(restauranteIds);
-		}catch (RestauranteNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage(),e);
-		}
-	}
-	
-	@DeleteMapping("/ativacoes")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void inativarMultilpos(@RequestBody List<Long> restauranteIds) {
-		try {
-			cadastroRestaurante.inativar(restauranteIds);
-		}catch (RestauranteNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage(),e);
-		}
 	}
 	
 	@PostMapping
@@ -245,6 +225,26 @@ public class RestauranteController {
 		} catch (IllegalArgumentException e) {
 			Throwable rootCause = ExceptionUtils.getRootCause(e);
 			throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
+		}
+	}
+
+	@PutMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.ativar(restauranteIds);
+		} catch (RestauranteNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+	
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.inativar(restauranteIds);
+		} catch (RestauranteNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 	

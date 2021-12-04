@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.converter.FormaPagamentoModelConverter;
 import com.study.algafood.api.model.FormaPagamentoModel;
+import com.study.algafood.api.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
 import com.study.algafood.domain.model.Restaurante;
 import com.study.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{restauranteId}/formas-pagamento")
-public class RestauranteFormaPagamentoController {
+public class RestauranteFormaPagamentoController implements RestauranteFormaPagamentoControllerOpenApi{
 
 	@Autowired
 	private CadastroRestauranteService cadastroRestaurante;

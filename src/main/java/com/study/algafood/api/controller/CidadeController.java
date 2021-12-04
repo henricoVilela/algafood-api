@@ -28,6 +28,8 @@ import com.study.algafood.domain.model.Cidade;
 import com.study.algafood.domain.repository.CidadeRepository;
 import com.study.algafood.domain.service.CadastroCidadeService;
 
+import io.swagger.annotations.ApiParam;
+
 
 @RestController //ja contem o @ResponseBody responsavel por adicionar os resultados dos metodos no corpo da requisicao
 @RequestMapping(path="/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,12 +53,12 @@ public class CidadeController implements CidadeControllerOpenApi {
 	}
 	
 	@GetMapping("/{cidadeId}")
-	public CidadeModel buscar(@PathVariable Long cidadeId){
+	public CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1", required = true) @PathVariable Long cidadeId){
 		return cidadeModelConverter.toModel(cadastroCidade.buscarOuFalhar(cidadeId));
 	}
 	
 	@PostMapping
-	public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput){		
+	public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade", required = true) @RequestBody @Valid CidadeInput cidadeInput){		
 		try {
 			Cidade cidade = cidadeInputDeconvert.toDomainObject(cidadeInput);
 			
@@ -67,7 +69,8 @@ public class CidadeController implements CidadeControllerOpenApi {
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public CidadeModel atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput){
+	public CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)  @PathVariable Long cidadeId,
+			                     @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados") @RequestBody @Valid CidadeInput cidadeInput){
 		Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
 	    
 	    //BeanUtils.copyProperties(cidade, cidadeAtual, "id");
@@ -84,7 +87,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cidadeId) {
+	public void remover(@ApiParam(value = "ID de uma cidade", example = "1", required = true) @PathVariable Long cidadeId) {
 	    cadastroCidade.excluir(cidadeId);	
 	}
 	
