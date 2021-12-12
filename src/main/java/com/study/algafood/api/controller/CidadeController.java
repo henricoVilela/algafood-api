@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.study.algafood.api.ResourceUriHelper;
 import com.study.algafood.api.converter.CidadeInputDeconvert;
 import com.study.algafood.api.converter.CidadeModelConverter;
 import com.study.algafood.api.model.CidadeModel;
@@ -59,12 +60,19 @@ public class CidadeController implements CidadeControllerOpenApi {
 	
 	@PostMapping
 	public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade", required = true) @RequestBody @Valid CidadeInput cidadeInput){		
+		
 		try {
 			Cidade cidade = cidadeInputDeconvert.toDomainObject(cidadeInput);
 			
-			return cidadeModelConverter.toModel(cadastroCidade.salvar(cidade));
-	    } catch (EstadoNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+			cidade = cadastroCidade.salvar(cidade);
+			
+			CidadeModel cidadeModel = cidadeModelConverter.toModel(cidade);
+			
+			ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+			
+			return cidadeModel;
+		} catch (EstadoNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 	

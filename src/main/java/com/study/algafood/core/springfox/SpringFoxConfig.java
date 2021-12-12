@@ -1,4 +1,4 @@
-package com.study.algafood.core.openapi;
+package com.study.algafood.core.springfox;
 
 import java.io.File;
 import java.io.InputStream;
