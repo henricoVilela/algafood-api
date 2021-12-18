@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,9 +49,12 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	private CidadeInputDeconvert cidadeInputDeconvert;       
 	
+	@Override
 	@GetMapping
-	public List<CidadeModel> listar(){
-		return cidadeModelConverter.toCollectionModel(cidadeRepository.findAll());
+	public CollectionModel<CidadeModel> listar() {
+		List<Cidade> todasCidades = cidadeRepository.findAll();
+		
+		return cidadeModelConverter.toCollectionModel(todasCidades);
 	}
 	
 	@GetMapping("/{cidadeId}")
