@@ -9,6 +9,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.study.algafood.api.CreatorLinks;
 import com.study.algafood.api.controller.UsuarioController;
 import com.study.algafood.api.controller.UsuarioGrupoController;
 import com.study.algafood.api.model.UsuarioModel;
@@ -20,6 +21,9 @@ public class UsuarioModelConverter extends RepresentationModelAssemblerSupport<U
 	@Autowired
     private ModelMapper modelMapper;
 	
+	@Autowired
+	private CreatorLinks linkService;
+	
 	public UsuarioModelConverter() {
         super(UsuarioController.class, UsuarioModel.class);
     }
@@ -28,10 +32,9 @@ public class UsuarioModelConverter extends RepresentationModelAssemblerSupport<U
     	UsuarioModel usuarioModel = createModelWithId(usuario.getId(), usuario);
 	    modelMapper.map(usuario, usuarioModel);
 	    
-	    usuarioModel.add(linkTo(UsuarioController.class).withRel("usuarios"));
+	    usuarioModel.add(linkService.linkToUsuarios("usuarios"));
 	    
-	    usuarioModel.add(linkTo(methodOn(UsuarioGrupoController.class)
-	            .listar(usuario.getId())).withRel("grupos-usuario"));
+	    usuarioModel.add(linkService.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
 	    
 	    return usuarioModel;
     }

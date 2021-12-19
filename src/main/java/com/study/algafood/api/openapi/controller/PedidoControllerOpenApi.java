@@ -1,7 +1,7 @@
 package com.study.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.study.algafood.api.exceptionhandler.Problem;
 import com.study.algafood.api.model.PedidoModel;
@@ -10,6 +10,8 @@ import com.study.algafood.api.model.input.PedidoInput;
 import com.study.algafood.domain.filter.PedidoFilter;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -18,8 +20,12 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Pedidos")
 public interface PedidoControllerOpenApi {
 
-    @ApiOperation("Pesquisa os pedidos")
-    Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, Pageable pageable);
+	@ApiOperation("Pesquisa os pedidos")
+	@ApiImplicitParams({
+	    @ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
+	            name = "campos", paramType = "query", type = "string")
+	})
+	PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, Pageable pageable); 
     
     @ApiOperation("Registra um pedido")
     @ApiResponses({

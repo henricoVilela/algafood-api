@@ -6,9 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,17 +50,18 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 	@Autowired
 	private CozinhaInputDeconvert cozinhaInputDeconvert;
 	
+	@Autowired
+	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
+	
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) //Produces diz a estrutura de dados retornado pelo metodo para a resposta http
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
 	@GetMapping
-	public Page<CozinhaModel> listar(@PageableDefault(size = 15) Pageable pageable){
+	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 15) Pageable pageable){
 		Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
 		
-		List<CozinhaModel> cozinhasModel = cozinhaModelConverter.toCollectionModel(pageCozinha.getContent());
+		PagedModel<CozinhaModel> cozinhaPageModel = pagedResourcesAssembler.toModel(pageCozinha, cozinhaModelConverter);
 		
-		Page<CozinhaModel> cozinhasPage = new PageImpl<>(cozinhasModel,pageable,pageCozinha.getTotalElements());
-		
-		return cozinhasPage;
+		return cozinhaPageModel;
 	}
 	
 	//Metodo para poder customizar as respostas em xml

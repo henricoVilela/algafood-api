@@ -1,7 +1,8 @@
 package com.study.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.study.algafood.api.exceptionhandler.Problem;
 import com.study.algafood.api.model.CozinhaModel;
@@ -17,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface CozinhaControllerOpenApi {
 
     @ApiOperation("Lista as cozinhas com paginação")
-    Page<CozinhaModel> listar(Pageable pageable);
+    PagedModel<CozinhaModel> listar(Pageable pageable);
     
     @ApiOperation("Busca uma cozinha por ID")
     @ApiResponses({

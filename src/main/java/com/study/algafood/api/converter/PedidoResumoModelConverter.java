@@ -1,28 +1,40 @@
 package com.study.algafood.api.converter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.study.algafood.api.CreatorLinks;
+import com.study.algafood.api.controller.PedidoController;
 import com.study.algafood.api.model.PedidoResumoModel;
 import com.study.algafood.domain.model.Pedido;
 
 @Component
-public class PedidoResumoModelConverter {
+public class PedidoResumoModelConverter extends RepresentationModelAssemblerSupport<Pedido, PedidoResumoModel> {
+
     @Autowired
     private ModelMapper modelMapper;
     
-    public PedidoResumoModel toModel(Pedido pedido) {
-        return modelMapper.map(pedido, PedidoResumoModel.class);
+    @Autowired
+	private CreatorLinks linkService;
+
+    public PedidoResumoModelConverter() {
+        super(PedidoController.class, PedidoResumoModel.class);
     }
     
-    public List<PedidoResumoModel> toCollectionModel(List<Pedido> pedidos) {
-        return pedidos.stream()
-                .map(pedido -> toModel(pedido))
-                .collect(Collectors.toList());
+    @Override
+    public PedidoResumoModel toModel(Pedido pedido) {
+        PedidoResumoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
+        modelMapper.map(pedido, pedidoModel);
+        
+        pedidoModel.add(linkService.linkToPedidos());
+        
+        pedidoModel.getRestaurante().add(linkService.linkToRestaurante(pedido.getRestaurante().getId()));
+
+        pedidoModel.getCliente().add(linkService.linkToUsuario(pedido.getCliente().getId()));
+        
+        return pedidoModel;
     }
     
 }
