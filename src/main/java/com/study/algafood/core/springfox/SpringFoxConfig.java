@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Links;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -22,11 +24,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.amazonaws.auth.policy.Resource;
 import com.fasterxml.classmate.TypeResolver;
 import com.study.algafood.api.exceptionhandler.Problem;
-import com.study.algafood.api.model.CozinhaModel;
-import com.study.algafood.api.model.PedidoResumoModel;
-import com.study.algafood.api.openapi.model.CozinhasModelOpenApi;
-import com.study.algafood.api.openapi.model.PageableModelOpenApi;
-import com.study.algafood.api.openapi.model.PedidosResumoModelOpenApi;
+import com.study.algafood.api.v1.model.CozinhaModel;
+import com.study.algafood.api.v1.model.PedidoResumoModel;
+import com.study.algafood.api.v1.openapi.model.CozinhasModelOpenApi;
+import com.study.algafood.api.v1.openapi.model.PageableModelOpenApi;
+import com.study.algafood.api.v1.openapi.model.PedidosResumoModelOpenApi;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -54,9 +56,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		var typeResolver = new TypeResolver();
 		
 		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("V1")
 				.select()
 					.apis(RequestHandlerSelectors.basePackage("com.study.algafood.api"))
-					.paths(PathSelectors.any())
+					.paths(PathSelectors.ant("/v1/**"))
 					.build()
 				.useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
@@ -92,6 +95,30 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				        new Tag("Produtos", "Gerencia os produtos de restaurantes"),
 				        new Tag("Usuários", "Gerencia os usuários"),
 				        new Tag("Estatísticas", "Estatísticas da AlgaFood"));
+	}
+	
+	@Bean
+	public Docket apiDocketV2() {
+		var typeResolver = new TypeResolver();
+		
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("V2")
+				.select()
+					.apis(RequestHandlerSelectors.basePackage("com.study.algafood.api"))
+					.paths(PathSelectors.ant("/v2/**"))
+					.build()
+				.useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
+				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+				.additionalModels(typeResolver.resolve(Problem.class))
+				.ignoredParameterTypes(ServletWebRequest.class,
+						URL.class, URI.class, URLStreamHandler.class, Resource.class,
+						File.class, InputStream.class)
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.tags(new Tag("Cidades", "Gerencia as cidades"))
+				.apiInfo(apiInfoV2());
 	}
 	
 	private List<ResponseMessage> globalGetResponseMessages() {
@@ -151,6 +178,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.title("AlgaFood API")
 				.description("API aberta para clientes e restaurantes")
 				.version("1")
+				.contact(new Contact("AlgaWorks", "https://www.algaworks.com", "contato@algaworks.com"))
+				.build();
+	}
+	
+	private ApiInfo apiInfoV2() {
+		return new ApiInfoBuilder()
+				.title("AlgaFood API")
+				.description("API aberta para clientes e restaurantes")
+				.version("2")
 				.contact(new Contact("AlgaWorks", "https://www.algaworks.com", "contato@algaworks.com"))
 				.build();
 	}
