@@ -27,6 +27,7 @@ import com.study.algafood.api.v1.converter.FotoProdutoModelConverter;
 import com.study.algafood.api.v1.model.FotoProdutoModel;
 import com.study.algafood.api.v1.model.input.FotoProdutoInput;
 import com.study.algafood.api.v1.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.study.algafood.domain.model.FotoProduto;
 import com.study.algafood.domain.model.Produto;
@@ -51,6 +52,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	@Autowired
 	private FotoStorageService fotoStorage;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public FotoProdutoModel buscar(@PathVariable Long restauranteId, 
@@ -60,6 +62,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	    return fotoProdutoModelConverter.toModel(fotoProduto);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping(produces=MediaType.ALL_VALUE)
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId, 
@@ -90,6 +93,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
@@ -111,6 +115,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		return fotoProdutoModelConverter.toModel(fotoSalva);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)

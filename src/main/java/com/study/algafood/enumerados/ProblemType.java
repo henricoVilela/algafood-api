@@ -13,7 +13,8 @@ public enum ProblemType {
 	RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrado", "Recurso não encontrado"),
 	DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos"),
 	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
-	METODO_NAO_SUPORTADO("/metodo-nao-suportado", "Método não suportado");
+	METODO_NAO_SUPORTADO("/metodo-nao-suportado", "Método não suportado"),
+	ACESSO_NEGADO("/acesso-negado", "Acesso negado");
 	
 	private String title;
 	private String uri;

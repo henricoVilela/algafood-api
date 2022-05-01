@@ -12,6 +12,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.study.algafood.api.v1.converter.CozinhaModelConverter;
 import com.study.algafood.api.v1.model.CozinhaModel;
 import com.study.algafood.api.v1.model.input.CozinhaInput;
 import com.study.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.model.Cozinha;
 import com.study.algafood.domain.repository.CozinhaRepository;
 import com.study.algafood.domain.service.CadastroCozinhaService;
@@ -55,6 +57,7 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 	
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) //Produces diz a estrutura de dados retornado pelo metodo para a resposta http
 	//@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE})
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping
 	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 15) Pageable pageable){
 		Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
@@ -70,6 +73,7 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
 	}*/
 	
+	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping("/por-nome")
 	public List<CozinhaModel> listarPorNome(@RequestParam("nome") String nome){
 		return cozinhaModelConverter.toCollectionModel(cozinhaRepository.consultarPorNome(nome));
@@ -90,12 +94,15 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 		
 	}*/
 	
+	@CheckSecurity.Cozinhas.PodeConsultar
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value="{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable("cozinhaId") Long id) {
 		return cozinhaModelConverter.toModel(cadastroCozinha.buscarOuFalhar(id));   
 	}
 	
-	
+	@CheckSecurity.Cozinhas.PodeEditar
+	@PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
@@ -103,6 +110,8 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 		return cozinhaModelConverter.toModel(cadastroCozinha.salvar(cozinha));
 	}
 	
+	@CheckSecurity.Cozinhas.PodeEditar
+	@PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
 	@PutMapping("/{cozinhaId}")
 	public CozinhaModel atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput){
 		
@@ -137,6 +146,7 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 		
 	}*/
 	
+	@PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
 	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId){

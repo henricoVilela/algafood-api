@@ -38,6 +38,7 @@ import com.study.algafood.api.v1.model.RestauranteModel;
 import com.study.algafood.api.v1.model.input.RestauranteInput;
 import com.study.algafood.api.v1.model.view.RestauranteView;
 import com.study.algafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.study.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
@@ -67,12 +68,15 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	private RestauranteModelConverter restauranteModelConverter;
 	
 	@Autowired RestauranteInputDeconvert restauranteInputDeconvert;
+	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findAll());
 	}
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@JsonView(RestauranteView.ApenasNome.class)
 	@GetMapping(params = "projecao=apenas-nome")
 	public List<RestauranteModel> listarApenasNomes() {
@@ -97,6 +101,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 //		return restaurantesWrapper;
 //	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		
@@ -106,22 +111,26 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/por-taxa-frete")
 	public List<RestauranteModel> listar(@RequestParam("taxaInicial") BigDecimal taxaInicial, @RequestParam("taxaFinal") BigDecimal taxaFinal) {
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findByTaxaFreteBetween(taxaInicial,taxaFinal));
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/por-nome-and-taxa-frete")
 	public List<RestauranteModel> listarPorNome(@RequestParam(value="nome", required = false) String nome, @RequestParam(value="taxaInicial",required = false) BigDecimal taxaInicial, @RequestParam(value="taxaFinal",required = false) BigDecimal taxaFinal){
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.find(nome, taxaInicial, taxaFinal));
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/com-frete-gratis")
 	public List<RestauranteModel> restauranteComFreteGratis(String nome){
 		
 		return restauranteModelConverter.toCollectionModel(restauranteRepository.findComFreteGratis(nome));
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput){
@@ -137,6 +146,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
@@ -157,6 +167,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
     }
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{restauranteId}/ativo")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> ativar(@PathVariable Long restauranteId){
@@ -165,6 +176,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping("/{restauranteId}/ativo")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> inativar(@PathVariable Long restauranteId){
@@ -173,6 +185,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
@@ -181,6 +194,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	    return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
@@ -237,6 +251,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> ativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -249,6 +264,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> inativarMultiplos(@RequestBody List<Long> restauranteIds) {

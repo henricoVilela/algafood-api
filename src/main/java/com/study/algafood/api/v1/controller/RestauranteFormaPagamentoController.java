@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.algafood.api.v1.converter.FormaPagamentoModelConverter;
 import com.study.algafood.api.v1.model.FormaPagamentoModel;
 import com.study.algafood.api.v1.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.model.Restaurante;
 import com.study.algafood.domain.service.CadastroRestauranteService;
 
@@ -29,6 +30,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	@Autowired
 	private FormaPagamentoModelConverter formaPagamentoModelConverter;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public List<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
@@ -36,6 +38,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		return formaPagamentoModelConverter.toCollectionModel(restaurante.getFormasPagamento());
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping("/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
@@ -44,6 +47,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
