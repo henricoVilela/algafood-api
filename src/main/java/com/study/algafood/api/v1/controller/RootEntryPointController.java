@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.v1.CreatorLinks;
+import com.study.algafood.core.security.AlgaSecurity;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -19,19 +20,35 @@ public class RootEntryPointController {
 	@Autowired
 	private CreatorLinks linkService;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity; 
+	
 	@GetMapping
 	public RootEntryPointModel root() {
 		var rootEntryPointModel = new RootEntryPointModel();
 		
-		rootEntryPointModel.add(linkService.linkToCozinhas("cozinhas"));
-		rootEntryPointModel.add(linkService.linkToPedidos("pedidos"));
-		rootEntryPointModel.add(linkService.linkToRestaurantes("restaurantes"));
+		if (algaSecurity.podeConsultarCozinhas())
+			rootEntryPointModel.add(linkService.linkToCozinhas("cozinhas"));
+		
+		if (algaSecurity.podePesquisarPedidos())
+			rootEntryPointModel.add(linkService.linkToPedidos("pedidos"));
+		
+		if (algaSecurity.podeConsultarRestaurantes())
+			rootEntryPointModel.add(linkService.linkToRestaurantes("restaurantes"));
+		
 		//rootEntryPointModel.add(linkService.linkToGrupos("grupos"));
-		rootEntryPointModel.add(linkService.linkToUsuarios("usuarios"));
+		
+		if (algaSecurity.podeConsultarUsuariosGruposPermissoes())
+			rootEntryPointModel.add(linkService.linkToUsuarios("usuarios"));
+		
 		//rootEntryPointModel.add(linkService.linkToPermissoes());
 		//rootEntryPointModel.add(linkService.linkToFormasPagamento("formas-pagamento"));
-		rootEntryPointModel.add(linkService.linkToEstados("estados"));
-		rootEntryPointModel.add(linkService.linkToCidades("cidades"));
+		
+		if (algaSecurity.podeConsultarEstados())
+			rootEntryPointModel.add(linkService.linkToEstados("estados"));
+		
+		if (algaSecurity.podeConsultarCidades())
+			rootEntryPointModel.add(linkService.linkToCidades("cidades"));
 		
 		return rootEntryPointModel;
 	}

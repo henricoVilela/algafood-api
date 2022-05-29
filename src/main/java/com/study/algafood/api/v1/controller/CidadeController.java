@@ -24,6 +24,7 @@ import com.study.algafood.api.v1.converter.CidadeModelConverter;
 import com.study.algafood.api.v1.model.CidadeModel;
 import com.study.algafood.api.v1.model.input.CidadeInput;
 import com.study.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.exception.EstadoNaoEncontradaException;
 import com.study.algafood.domain.exception.NegocioException;
 import com.study.algafood.domain.model.Cidade;
@@ -50,7 +51,9 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	private CidadeInputDeconvert cidadeInputDeconvert;       
 	
+	
 	@Override
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
@@ -58,11 +61,13 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadeModelConverter.toCollectionModel(todasCidades);
 	}
 	
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1", required = true) @PathVariable Long cidadeId){
 		return cidadeModelConverter.toModel(cadastroCidade.buscarOuFalhar(cidadeId));
 	}
 	
+	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping
 	public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade", required = true) @RequestBody @Valid CidadeInput cidadeInput){		
 		
@@ -81,6 +86,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping("/{cidadeId}")
 	public CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)  @PathVariable Long cidadeId,
 			                     @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados") @RequestBody @Valid CidadeInput cidadeInput){
@@ -98,6 +104,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	    
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@ApiParam(value = "ID de uma cidade", example = "1", required = true) @PathVariable Long cidadeId) {

@@ -31,6 +31,7 @@ import com.study.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.study.algafood.core.data.PageWrapper;
 import com.study.algafood.core.data.PageableTranslator;
 import com.study.algafood.core.security.AlgaSecurity;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.study.algafood.domain.exception.NegocioException;
 import com.study.algafood.domain.filter.PedidoFilter;
@@ -86,6 +87,7 @@ public class PedidoController implements PedidoControllerOpenApi{
     
 	@Override
 	@GetMapping
+	@CheckSecurity.Pedidos.PodePesquisar
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 			@PageableDefault(size = 10) Pageable pageable) {
 		Pageable pageableTraduzido = traduzirPageable(pageable);
@@ -98,6 +100,7 @@ public class PedidoController implements PedidoControllerOpenApi{
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelConverter);
 	}
     
+	@CheckSecurity.Pedidos.PodeBuscar
     @GetMapping("/{pedidoCodigo}")
     public PedidoModel buscar(@PathVariable String pedidoCodigo) {
         Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoCodigo);
@@ -105,6 +108,7 @@ public class PedidoController implements PedidoControllerOpenApi{
         return pedidoModelConverter.toModel(pedido);
     }            
     
+	@CheckSecurity.Pedidos.PodeCriar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoModel adicionar(@Valid @RequestBody PedidoInput pedidoInput) {

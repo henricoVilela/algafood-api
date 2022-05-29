@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.algafood.api.v1.openapi.controller.EstatisticasControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.filter.VendaDiariaFilter;
 import com.study.algafood.domain.model.dto.VendaDiaria;
 import com.study.algafood.domain.service.VendaQueryService;
@@ -27,12 +28,14 @@ public class EstatisticasController implements EstatisticasControllerOpenApi{
 	@Autowired
 	private VendaReportService vendaReportService;
 	
+	@CheckSecurity.Estatisticas.PodeConsultar
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
 
 		return vendaQueryService.consultarVendasDiarias(filter,timeOffset);
 	}
 	
+	@CheckSecurity.Estatisticas.PodeConsultar
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
 		

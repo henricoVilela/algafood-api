@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.study.algafood.api.v1.CreatorLinks;
 import com.study.algafood.api.v1.controller.PedidoController;
 import com.study.algafood.api.v1.model.PedidoResumoModel;
+import com.study.algafood.core.security.AlgaSecurity;
 import com.study.algafood.domain.model.Pedido;
 
 @Component
@@ -18,6 +19,9 @@ public class PedidoResumoModelConverter extends RepresentationModelAssemblerSupp
     
     @Autowired
 	private CreatorLinks linkService;
+    
+    @Autowired
+    private AlgaSecurity algaSecurity;  
 
     public PedidoResumoModelConverter() {
         super(PedidoController.class, PedidoResumoModel.class);
@@ -28,11 +32,14 @@ public class PedidoResumoModelConverter extends RepresentationModelAssemblerSupp
         PedidoResumoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
         
-        pedidoModel.add(linkService.linkToPedidos());
+        if (algaSecurity.podePesquisarPedidos()) 
+        	pedidoModel.add(linkService.linkToPedidos());
         
-        pedidoModel.getRestaurante().add(linkService.linkToRestaurante(pedido.getRestaurante().getId()));
+        if (algaSecurity.podeConsultarRestaurantes()) 
+        	pedidoModel.getRestaurante().add(linkService.linkToRestaurante(pedido.getRestaurante().getId()));
 
-        pedidoModel.getCliente().add(linkService.linkToUsuario(pedido.getCliente().getId()));
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes())
+        	pedidoModel.getCliente().add(linkService.linkToUsuario(pedido.getCliente().getId()));
         
         return pedidoModel;
     }

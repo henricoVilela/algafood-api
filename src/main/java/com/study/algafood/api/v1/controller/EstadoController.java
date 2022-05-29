@@ -20,6 +20,7 @@ import com.study.algafood.api.v1.converter.EstadoModelConverter;
 import com.study.algafood.api.v1.model.EstadoModel;
 import com.study.algafood.api.v1.model.input.EstadoInput;
 import com.study.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.model.Estado;
 import com.study.algafood.domain.repository.EstadoRepository;
 import com.study.algafood.domain.service.CadastroEstadoService;
@@ -41,16 +42,19 @@ public class EstadoController implements EstadoControllerOpenApi{
 	@Autowired
 	private EstadoInputDeconvert estadoInputDeconvert;   
 	
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping
 	public CollectionModel<EstadoModel> listar(){
 		return estadoModelConverter.toCollectionModel(estadoRepository.findAll());
 	}
 	
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping("/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId) {
 		return estadoModelConverter.toModel(cadastroEstado.buscarOuFalhar(estadoId));
 	}
 	
+	@CheckSecurity.Estados.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
@@ -60,6 +64,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 		return  estadoModelConverter.toModel(cadastroEstado.salvar(estado));
 	}
 	
+	@CheckSecurity.Estados.PodeEditar
 	@PutMapping("/{estadoId}")
 	public EstadoModel atualizar(@PathVariable Long estadoId,
 			@RequestBody @Valid EstadoInput estadoInput) {
@@ -73,6 +78,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 	    return estadoModelConverter.toModel(cadastroEstado.salvar(estadoAtual));
 	}
 	
+	@CheckSecurity.Estados.PodeEditar
 	@DeleteMapping("/{estadoId}")
 	public void remover(@PathVariable Long estadoId) {
 		cadastroEstado.excluir(estadoId);	

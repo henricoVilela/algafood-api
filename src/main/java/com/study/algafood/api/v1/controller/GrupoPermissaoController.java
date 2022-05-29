@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.algafood.api.v1.converter.PermissaoModelConverter;
 import com.study.algafood.api.v1.model.PermissaoModel;
 import com.study.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.model.Grupo;
 import com.study.algafood.domain.service.CadastroGrupoService;
 
@@ -29,6 +30,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private PermissaoModelConverter permissaoModelConverter;
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public List<PermissaoModel> listar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
@@ -36,6 +38,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 		return permissaoModelConverter.toCollectionModel(grupo.getPermissoes());
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{permissaoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
@@ -44,6 +47,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping("/{permissaoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> associar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {

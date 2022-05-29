@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.algafood.api.v1.converter.GrupoModelConverter;
 import com.study.algafood.api.v1.model.GrupoModel;
 import com.study.algafood.api.v1.openapi.controller.UsuarioGrupoControllerOpenApi;
+import com.study.algafood.core.security.CheckSecurity;
 import com.study.algafood.domain.model.Usuario;
 import com.study.algafood.domain.service.CadastroUsuarioService;
 
@@ -29,6 +30,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
     @Autowired
     private GrupoModelConverter grupoModelConverter;
     
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping
     public List<GrupoModel> listar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
@@ -36,6 +38,8 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
         return grupoModelConverter.toCollectionModel(usuario.getGrupos());
     }
     
+
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
@@ -44,6 +48,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
         return ResponseEntity.noContent().build();
     }
     
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
