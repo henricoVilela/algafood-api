@@ -12,6 +12,11 @@
       "sourceMethod": "public com.study.algafood.core.email.EmailProperties.Sandbox getSandbox() "
     },
     {
+      "name": "algafood.jwt.keystore",
+      "type": "com.study.algafood.core.security.authorizationserver.JwtKeyStoreProperties",
+      "sourceType": "com.study.algafood.core.security.authorizationserver.JwtKeyStoreProperties"
+    },
+    {
       "name": "algafood.storage",
       "type": "com.study.algafood.core.storage.StorageProperties",
       "sourceType": "com.study.algafood.core.storage.StorageProperties"
@@ -44,6 +49,21 @@
       "name": "algafood.email.sandbox.destinatario",
       "type": "java.lang.String",
       "sourceType": "com.study.algafood.core.email.EmailProperties$Sandbox"
+    },
+    {
+      "name": "algafood.jwt.keystore.jks-location",
+      "type": "org.springframework.core.io.Resource",
+      "sourceType": "com.study.algafood.core.security.authorizationserver.JwtKeyStoreProperties"
+    },
+    {
+      "name": "algafood.jwt.keystore.keypair-alias",
+      "type": "java.lang.String",
+      "sourceType": "com.study.algafood.core.security.authorizationserver.JwtKeyStoreProperties"
+    },
+    {
+      "name": "algafood.jwt.keystore.password",
+      "type": "java.lang.String",
+      "sourceType": "com.study.algafood.core.security.authorizationserver.JwtKeyStoreProperties"
     },
     {
       "name": "algafood.storage.local.diretorio-fotos",
