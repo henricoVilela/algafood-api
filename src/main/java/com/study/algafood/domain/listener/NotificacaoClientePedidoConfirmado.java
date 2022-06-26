@@ -2,7 +2,6 @@ package com.study.algafood.domain.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.study.algafood.domain.event.PedidoConfirmadoEvent;
@@ -23,7 +22,7 @@ public class NotificacaoClientePedidoConfirmado {
 		
 		var mensagem = Mensagem.builder()
 		.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-		.corpo("pedido-confirmado.html")
+		.corpo("emails/pedido-confirmado.html")
 		.variavel("pedido", pedido)
 		.destinatario(pedido.getCliente().getEmail())
 		.build();

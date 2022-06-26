@@ -8,7 +8,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import com.study.algafood.api.v1.CreatorLinks;
 import com.study.algafood.api.v1.controller.CidadeController;
 import com.study.algafood.api.v2.CreatorLinksV2;
 import com.study.algafood.api.v2.controller.CidadeControllerV2;

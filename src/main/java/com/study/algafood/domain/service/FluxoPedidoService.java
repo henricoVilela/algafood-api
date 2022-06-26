@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.study.algafood.domain.model.Pedido;
 import com.study.algafood.domain.repository.PedidoRepository;
-import com.study.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class FluxoPedidoService {

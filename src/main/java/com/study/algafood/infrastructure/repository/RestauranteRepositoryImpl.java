@@ -5,7 +5,6 @@ import static com.study.algafood.infrastructure.repository.spec.RestauranteSpecs
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,7 +20,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.algafood.domain.model.Restaurante;
 import com.study.algafood.domain.repository.RestauranteRepository;
 import com.study.algafood.domain.repository.RestauranteRepositoryQueries;
