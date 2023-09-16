@@ -5,13 +5,6 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
     version="2.2">
 
-	<named-query name="Cozinha.consultarPorNome">
-		<query>
-		from Cozinha
-		where nome like concat('%', :nome, '%')
-		</query>
-	</named-query>
-	
 	<named-query name="Restaurante.consultarPorNome">
 		<query>
 		from Restaurante
@@ -19,7 +12,7 @@
 		and cozinha.id = :id
 		</query>
 	</named-query>
-	
+
 	<named-query name="Restaurante.existsResponsavel">
 		<query>
 		select case when count(1) > 0 then true else false end
@@ -30,15 +23,15 @@
 		</query>
 	</named-query>
 	
-	<named-query name="Pedido.isPedidoGerenciadoPor">
-	    <query>
-	    select case when count(1) > 0 then true else false end
-	    from Pedido ped
-	    join ped.restaurante rest
-	    join rest.responsaveis resp
-	    where ped.codigo = :codigoPedido 
-	    and resp.id = :usuarioId
-	    </query>
-</named-query>  
-
+		<named-query name="Pedido.isPedidoGerenciadoPor">
+		<query>
+		select case when count(1) > 0 then true else false end
+		from Pedido ped
+		join ped.restaurante rest
+		join rest.responsaveis resp
+		where ped.codigo = :codigoPedido 
+		and resp.id = :usuarioId
+		</query>
+	</named-query>
+	
 </entity-mappings>
